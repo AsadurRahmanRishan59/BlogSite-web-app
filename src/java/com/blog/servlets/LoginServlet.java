@@ -5,6 +5,7 @@
 package com.blog.servlets;
 
 import com.blog.dao.UserDao;
+import com.blog.entities.Message;
 import com.blog.entities.User;
 import com.blog.helper.ConnectionProvider;
 import java.io.IOException;
@@ -41,26 +42,28 @@ public class LoginServlet extends HttpServlet {
             out.println("<title>Servlet LoginServlet</title>");
             out.println("</head>");
             out.println("<body>");
-
-
+            
             String userEmail = request.getParameter("email");
             String userPassword = request.getParameter("password");
-
+            
             UserDao dao = new UserDao(ConnectionProvider.getConnection());
             
             User user = dao.getUserByEmailandPassword(userEmail, userPassword);
-
-            if(user==null){
-                out.println("Invalid Details, please try again");
-            }else{
+            
+            if (user == null) {
+                
+                Message msg = new Message("Invalid Email or Password! Try again", "error", "alert-danger");
+                HttpSession session = request.getSession();
+                session.setAttribute("msg", msg);
+                
+                response.sendRedirect("login_page.jsp");
+            } else {
                 
                 HttpSession session = request.getSession();
                 session.setAttribute("currentUser", user);
                 response.sendRedirect("profile.jsp");
                 
             }
-            
-            
             
             out.println("</body>");
             out.println("</html>");

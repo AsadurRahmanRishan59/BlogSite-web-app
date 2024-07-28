@@ -39,9 +39,8 @@
 
                     <p>Welcome to "The Blog for Everything" – your one-stop destination for a diverse array of topics that pique curiosity, ignite passions, and inspire conversations. Whether you're here to explore new interests, deepen your knowledge, or simply enjoy a good read, we have something for everyone.</p> 
 
-<!--                    <button class="btn btn-outline-dark btn-lg"><span class="fa fa-user-plus"> </span>  Start Your Journey</button>-->
                     <a class="btn btn-outline-dark btn-lg" href="registar_page.jsp" role="button"><span class="fa fa-user-circle-o"> </span>Start Your Journey</a>
-                    <a class="btn btn-outline-dark btn-lg" href="login_page.jsp" role="button"><span class="fa fa-user-circle-o"> </span>Login</a>
+                    <a class="btn btn-outline-dark btn-lg" href="login_page.jsp" role="button"><span class="fa fa-sign-in"> </span>Login</a>
                 </div>
 
             </div>

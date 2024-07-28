@@ -44,7 +44,7 @@
             </li>
             
             <li class="nav-item">
-                <a class="nav-link" href="login_page.jsp"><span class="fa fa-user-circle-o"></span> Login</a>
+                <a class="nav-link" href="login_page.jsp"><span class="fa fa-sign-in"></span> Login</a>
             </li>
             
             <li class="nav-item">
