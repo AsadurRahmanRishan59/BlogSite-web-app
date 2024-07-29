@@ -31,6 +31,7 @@
         <title>Profile</title>
     </head>
     <body>
+
         <!--navbar-->
         <nav class="navbar navbar-expand-lg navbar-light primary-background">
 
@@ -81,7 +82,7 @@
 
                 <ul class="navbar-nav mr-right">
                     <li class="nav-item">
-                        <a class="nav-link" href="registar_page.jsp"><span class="fa fa-user-circle"></span> <%= user.getName() %></a>
+                        <a class="nav-link" href="#!" data-toggle="modal" data-target="#profile-modal"><span class="fa fa-user-circle"></span> <%= user.getName()%></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="LogoutServlet"><span class="fa fa-sign-out"></span> Logout</a>
@@ -91,6 +92,148 @@
             </div>
         </nav
         <!--end of navbar-->
+
+
+        <!--profile modal-->
+
+        <!-- Modal -->
+        <div class="modal fade" id="profile-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header primary-background text-black text-center">
+                        <h5 class="modal-title" id="exampleModalLabel">User Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container text text-center">
+                            <img src="profilePics/<%= user.getProfile()%>" class="img-fluid" style="border-radius:50%;max-width: 150px">
+                            <br>
+                            <h5 class="modal-title mt-3" id="exampleModalLabel"><%= user.getName()%></h5>
+
+                            <!--details-->
+                            <div id="profile-details">
+
+                                <table class="table">
+
+                                    <tbody>
+
+                                        <tr>
+                                            <th scope="row">ID :</th>
+                                            <td><%= user.getId()%></td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Email :</th>
+                                            <td><%= user.getEmail()%></td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Gender</th>
+                                            <td><%= user.getGender()%></td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Status</th>
+                                            <td><%= user.getAbout()%></td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">Registered On</th>
+                                            <td><%= user.getDateTime().toString()%></td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                            <!--profile edit-->
+
+                            <div id="profile-edit" style="display:none">
+                                <h4 class="mt-2"> Please Edit Carefully</h4>
+
+                                <form action="EditServlet" method="post" enctype="multipart/form-data">
+
+                                    <table class="table">
+
+                                        <tr>
+                                            <td>ID :</td>
+                                            <td><%= user.getId()%></td>
+                                        </tr>
+                                        <tr>
+                                            <td>New Picture:</td>
+                                            <td>
+                                                <input type="file" class="form-control" name="profile_pic">
+                                            </td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>Email :</td>
+                                            <td>
+                                                <input type="email" class="form-control" name="user_email" value="<%= user.getEmail()%>" >
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Name :</td>
+                                            <td>
+                                                <input type="text" class="form-control" name="user_name" value="<%= user.getName()%>" >
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Password :</td>
+                                            <td>
+                                                <input type="password" class="form-control" name="user_password" value="<%= user.getPassword()%>" >
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Gender :</td>
+                                            <td><%= user.getGender().toUpperCase()%></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Status :</td>
+                                            <td>
+                                                <textarea rows="3" class="form-control" name="user_status"><%= user.getAbout()%>"
+                                                </textarea>
+
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div class="container">
+                                        <button type="submit" class="btn btn-success">Save</button>
+                                    </div>
+                                </form>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                        <button id="edit-profile-btn" type="button" class="btn btn-light primary-background">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!--end of profile modal-->
 
 
 
@@ -114,6 +257,35 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script src="js/myjs.js" type="text/javascript"></script>
+
+        <script>
+
+            $(document).ready(function () {
+
+                let editStatus = false;
+
+                $('#edit-profile-btn').click(function () {
+
+                    if (editStatus == false) {
+                        $('#profile-details').hide()
+                        $('#profile-edit').show()
+
+                        editStatus = true
+                        $(this).text('Back')
+
+                    } else {
+                        $('#profile-details').show()
+                        $('#profile-edit').hide()
+
+                        editStatus = false;
+                        $(this).text('Edit')
+                    }
+
+                })
+
+            });
+
+        </script>
 
     </body>
 </html>

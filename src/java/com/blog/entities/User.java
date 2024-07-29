@@ -87,8 +87,8 @@ public class User {
         this.about = about;
     }
     
-    public String getDateTime() {
-        return about;
+    public Timestamp getDateTime() {
+        return dateTime;
     }
 
     public void setDateTime(Timestamp dateTime) {
