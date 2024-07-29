@@ -3,6 +3,10 @@
     Created on : Jul 28, 2024, 7:39:40 PM
     Author     : rishan
 --%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.blog.entities.Category"%>
+<%@page import="com.blog.helper.ConnectionProvider"%>
+<%@page import="com.blog.dao.PostDao"%>
 <%@page import="com.blog.entities.Message"%>
 <%@page import="com.blog.entities.User"%>
 <%@page errorPage="error_page.jsp" %>
@@ -79,6 +83,10 @@
                         <a class="nav-link" href="#"><span class="fa fa-id-card"></span> Contact</a>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#add-post-modal"><span class="fa fa-edit"></span> Do Post</a>
+                    </li>
+
                 </ul>
 
                 <ul class="navbar-nav mr-right">
@@ -93,7 +101,7 @@
             </div>
         </nav
         <!--end of navbar-->
-        
+
         <%
             Message msg = (Message) session.getAttribute("msg");
             if (msg != null) {
@@ -234,22 +242,69 @@
             </div>
         </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         <!--end of profile modal-->
 
+        <!--add post modal-->
 
+        <!-- Modal -->
+        <div class="modal fade" id="add-post-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Write your post</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <form id="add-post-form" action="AddPostServlet" method="post">
+
+                            <div class="form-group">
+                                <select class="form-control"name="cid">
+                                    <option selected disabled>---Select Category---</option>
+
+                                    <%
+                                        PostDao postdao = new PostDao(ConnectionProvider.getConnection());
+                                        ArrayList<Category> list = postdao.getCategories();
+
+                                        for (Category category : list) {
+                                    %>
+
+                                    <option value="<%= category.getCid()%>"><%= category.getName()%></option>
+
+                                    <%
+                                        }
+                                    %>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <input name="pTitle" type="text" placeholder="Post Title" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <textarea name="pContent" class="form-control" placeholder="Body" style="height:300px;"></textarea>
+                            </div>
+
+                            <label>Upload related photo</label>
+                            <div class="form-group">
+                                <input name="pic" type="file">
+                            </div>
+
+                            <div class="container text-center">
+                                <button type="submit" class="btn btn-success">Post</button>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!--end of add post modal-->
 
 
 
@@ -270,7 +325,57 @@
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        <script src="js/myjs.js" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script>
+            //add post js
+
+            $(document).ready(function () {
+
+                $('#add-post-form').on("submit", function (event) {
+
+                    //this code gets called when form is submitted
+
+                    event.preventDefault();
+                    console.log("done");
+
+                    let form = new FormData(this);
+
+                    //now requesting to server
+
+                    $.ajax({
+                        url: "AddPostServlet",
+                        type: 'POST',
+                        data: form,
+
+                        success: function (data, textStatus, jqXHR) {
+                            //success
+                            if (data.trim() === 'done') {
+
+                                swal("Good job!", "A New Blog has been Posted!", "success")
+                                .then((value) => {
+                                        window.location = "login_page.jsp"
+                                    });
+
+                            } else {
+                                swal("Error!", "Something went wrong!", "error");
+
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            //error
+                            swal("Error!", "Something went wrong!", "error");
+                        },
+                        processData: false,
+                        contentType: false
+                    });
+
+                });
+
+            });
+
+
+
+        </script>
 
         <script>
 
@@ -280,26 +385,27 @@
 
                 $('#edit-profile-btn').click(function () {
 
-                    if (editStatus == false) {
-                        $('#profile-details').hide()
-                        $('#profile-edit').show()
+                    if (editStatus === false) {
+                        $('#profile-details').hide();
+                        $('#profile-edit').show();
 
-                        editStatus = true
-                        $(this).text('Back')
+                        editStatus = true;
+                        $(this).text('Back');
 
                     } else {
-                        $('#profile-details').show()
-                        $('#profile-edit').hide()
+                        $('#profile-details').show();
+                        $('#profile-edit').hide();
 
                         editStatus = false;
-                        $(this).text('Edit')
+                        $(this).text('Edit');
                     }
 
-                })
+                });
 
             });
 
         </script>
+        <script src="js/post.js" type="text/javascript"></script>
 
     </body>
 </html>

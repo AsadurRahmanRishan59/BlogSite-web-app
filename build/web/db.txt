@@ -1,0 +1,23 @@
+CREATE TABLE `Blog`.`categories` (
+  `idcategories` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(200) NULL,
+  `` VARCHAR(45) NULL,
+  PRIMARY KEY (`cid`));
+
+
+CREATE TABLE `Blog`.`posts` (
+  `pid` INT NOT NULL AUTO_INCREMENT,
+  `pTitle` VARCHAR(150) NOT NULL,
+  `pContent` LONGTEXT NULL,
+  `pPic` VARCHAR(100) NULL,
+  `pDate` VARCHAR(45) NOT NULL DEFAULT 'CURRENT_TIMESTAMP',
+  `catId` INT NULL,
+  PRIMARY KEY (`pid`),
+  INDEX `catId_idx` (`catId` ASC) VISIBLE,
+  CONSTRAINT `catId`
+    FOREIGN KEY (`catId`)
+    REFERENCES `Blog`.`categories` (`cid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+

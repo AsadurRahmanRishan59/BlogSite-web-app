@@ -160,7 +160,7 @@
 
                             swal("registered successfully..we redirecting to login page")
                                     .then((value) => {
-                                        window.location = "login_page.jsp"
+                                        window.location = "profile.jsp"
                                     });
                             }else{
                                 swal(data);
