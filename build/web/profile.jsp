@@ -3,6 +3,7 @@
     Created on : Jul 28, 2024, 7:39:40 PM
     Author     : rishan
 --%>
+<%@page import="com.blog.entities.Message"%>
 <%@page import="com.blog.entities.User"%>
 <%@page errorPage="error_page.jsp" %>
 
@@ -92,7 +93,20 @@
             </div>
         </nav
         <!--end of navbar-->
+        
+        <%
+            Message msg = (Message) session.getAttribute("msg");
+            if (msg != null) {
+        %>
 
+        <div class="alert <%= msg.getCssClass()%>" role="alert">
+            <%= msg.getContent()%>
+        </div>
+
+        <%
+                session.removeAttribute("msg");
+            }
+        %>
 
         <!--profile modal-->
 
@@ -167,7 +181,7 @@
                                             <td>
                                                 <input type="file" class="form-control" name="profile_pic">
                                             </td>
-                                            
+
                                         </tr>
                                         <tr>
                                             <td>Email :</td>
