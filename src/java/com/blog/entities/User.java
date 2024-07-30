@@ -15,7 +15,7 @@ public class User {
     private Timestamp dateTime;
     private String about;
     private String profile;
-
+    
     public User() {}
 
     public User(String name, String email, String password, String gender, String about) {

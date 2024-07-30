@@ -175,10 +175,10 @@
                         },
                         processData: false,
                         contentType: false
-                    })
+                    });
 
-                })
-            })
+                });
+            });
 
         </script>
 

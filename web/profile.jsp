@@ -54,7 +54,7 @@
                 <ul class="navbar-nav mr-auto">
 
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="profile.jsp">
                             <span class="fa fa-home"></span> Home <span class="sr-only">(current)</span>
                         </a>
                     </li>
@@ -68,8 +68,17 @@
 
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                            <a class="dropdown-item" href="#">Programming Language</a>
-                            <a class="dropdown-item" href="#">Projects</a>
+                            <%                                PostDao postdaon = new PostDao(ConnectionProvider.getConnection());
+                                ArrayList<Category> listn = postdaon.getCategories();
+
+                                for (Category category : listn) {
+                            %>
+
+                            <a class="dropdown-item" href="#"><%= category.getName()%></a>
+
+                            <%
+                                }
+                            %>
 
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Data Structures</a>
@@ -115,6 +124,70 @@
                 session.removeAttribute("msg");
             }
         %>
+
+        <!--main body of the page-->
+
+        <main>
+            <div class="container">
+                <div class="row mt-4">
+
+                    <!--first col-->
+                    <div class="col-md-4">
+                        <!--categories-->
+                        <div class="list-group">
+                            <a href="#" onclick="getPosts(0, this)" class="c-link list-group-item list-group-item-action active">
+                                All Post
+                            </a>
+                            <!--categories-->
+                            <%
+                                PostDao postdao2 = new PostDao(ConnectionProvider.getConnection());
+                                ArrayList<Category> list2 = postdao2.getCategories();
+
+                                for (Category category : list2) {
+                            %>
+
+                            <a href="#" onclick="getPosts(<%= category.getCid()%>, this)" class="c-link list-group-item list-group-item-action">
+                                <%= category.getName()%>
+                            </a>
+
+                            <%
+                                }
+                            %>
+
+                        </div>
+                    </div>
+
+                    <!--second col-->
+                    <div class="col-md-8">
+                        <!--posts-->
+                        <div class="container text-center"id="loader">
+                            <i class="fa fa-refresh fa-4x fa-spin"></i> 
+                            <h3 class="mt-2">Loading...</h3>
+
+                        </div>
+
+                        <div class="container-fluid" id="post-container">
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+
+
+
+
+
+
+
+
+
+
+
+        <!--end of main body of the page-->
 
         <!--profile modal-->
 
@@ -327,56 +400,57 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script>
-            //add post js
+                                //add post js
 
-            $(document).ready(function () {
+                                $(document).ready(function () {
 
-                $('#add-post-form').on("submit", function (event) {
+                                    $('#add-post-form').on("submit", function (event) {
 
-                    //this code gets called when form is submitted
+                                        //this code gets called when form is submitted
 
-                    event.preventDefault();
-                    console.log("done");
+                                        event.preventDefault();
+                                        console.log("done");
 
-                    let form = new FormData(this);
+                                        let form = new FormData(this);
 
-                    //now requesting to server
+                                        //now requesting to server
 
-                    $.ajax({
-                        url: "AddPostServlet",
-                        type: 'POST',
-                        data: form,
+                                        $.ajax({
+                                            url: "AddPostServlet",
+                                            type: 'POST',
+                                            data: form,
 
-                        success: function (data, textStatus, jqXHR) {
-                            //success
-                            if (data.trim() === 'done') {
+                                            success: function (data, textStatus, jqXHR) {
+                                                //success
+                                                if (data.trim() === 'done') {
 
-                                swal("Good job!", "A New Blog has been Posted!", "success")
-                                .then((value) => {
-                                        window.location = "login_page.jsp"
+                                                    swal("Good job!", "A New Blog has been Posted!", "success")
+                                                            .then((value) => {
+                                                                window.location = "profile.jsp";
+                                                            });
+
+                                                } else {
+                                                    swal("Error!", "Something went wrong!", "error");
+
+                                                }
+                                            },
+                                            error: function (jqXHR, textStatus, errorThrown) {
+                                                //error
+                                                swal("Error!", "Something went wrong!", "error");
+                                            },
+                                            processData: false,
+                                            contentType: false
+                                        });
+
                                     });
 
-                            } else {
-                                swal("Error!", "Something went wrong!", "error");
-
-                            }
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            //error
-                            swal("Error!", "Something went wrong!", "error");
-                        },
-                        processData: false,
-                        contentType: false
-                    });
-
-                });
-
-            });
+                                });
 
 
 
         </script>
 
+        <!--edit profile-->
         <script>
 
             $(document).ready(function () {
@@ -402,6 +476,38 @@
 
                 });
 
+            });
+
+        </script>
+
+        <!--loading post using ajax-->
+        <script>
+
+            function getPosts(catId, clink) {
+
+                $("#loader").hide();
+                $("#post-container").show;
+
+                $(".c-link").removeClass('active');
+                
+
+                $.ajax({
+                    url: "load_posts.jsp",
+                    data: {cid: catId},
+                    success: function (data, textStatus, jqXHR) {
+                        console.log(data);
+                        $("#loader").hide();
+                        $("#post-container").show;
+                        $("#post-container").html(data);
+                        $(clink).addClass('active');
+
+                    }
+                });
+            }
+
+            $(document).ready(function (e) {
+                let allPostRef = $('.c-link')[0];
+                getPosts(0,allPostRef);
             });
 
         </script>
