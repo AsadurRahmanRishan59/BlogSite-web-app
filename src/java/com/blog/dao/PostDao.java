@@ -5,6 +5,8 @@ import com.blog.entities.Post;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author rishan
@@ -139,6 +141,69 @@ public class PostDao {
         
         return list;
         
+    }
+    
+    public Post getPostByPostId(int postId){
+        
+        String query = "select * from posts where pId=?";
+        Post post = null;
+        try {
+            
+            PreparedStatement preparedStatement = this.con.prepareStatement(query);
+            preparedStatement.setInt(1, postId);
+            
+            ResultSet rs = preparedStatement.executeQuery();
+            
+            if(rs.next()){
+                int pid = rs.getInt("pid");
+                String pTitle = rs.getString("pTitle");
+                String pContent = rs.getString("pContent");
+                String pPic = rs.getString("pPic");
+                Timestamp pDate = rs.getTimestamp("pDate");
+                int catId = rs.getInt("catId");
+                int userId = rs.getInt("userId");
+                
+                post = new Post(pid, pTitle, pContent, pPic, pDate,catId, userId);
+               
+            }
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        
+        return post;
+    }
+    public boolean deletePostByPostId(int postId){
+        
+        boolean f = false;
+        String query = "delete from posts where pId=?";
+
+        Post post = null;
+        try {
+            
+            PreparedStatement preparedStatement = this.con.prepareStatement(query);
+            preparedStatement.setInt(1, postId);
+            
+            ResultSet rs = preparedStatement.executeQuery();
+            
+            if(rs.next()){
+                int pid = rs.getInt("pid");
+                String pTitle = rs.getString("pTitle");
+                String pContent = rs.getString("pContent");
+                String pPic = rs.getString("pPic");
+                Timestamp pDate = rs.getTimestamp("pDate");
+                int catId = rs.getInt("catId");
+                int userId = rs.getInt("userId");
+                
+                post = new Post(pid, pTitle, pContent, pPic, pDate,catId, userId);
+               
+            }
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        
+        return f;
     }
     
     

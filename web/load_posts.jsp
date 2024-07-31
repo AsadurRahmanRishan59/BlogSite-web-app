@@ -24,6 +24,7 @@
         }
 
         for (Post post : list) {
+            int length = post.getpContent().length()/3;
 
     %>
 
@@ -32,10 +33,15 @@
 
             <img class="card-img-top" src="blogPics/<%= post.getpPic()%>" alt="Card image cap">
             <div class="card-body">
-                <b><%= post.getpTitle()%></b>
-                <p><%= post.getpContent()%></p>
+                <b><%= post.getpTitle() %></b>
+                <p><%= post.getpContent().substring(0, length)+"..." %></p>
             </div>
+            <div class="card-footer text-center login-background">
+                <a href="#" class="btn btn-outline-dark btn-sm primary-background text-black"><i class="fa fa-thumbs-o-up"></i><span>10</span></a>
+                <a href="show_postPage.jsp?post_id=<%= post.getPid() %>" class=" btn btn-outline-dark btn-sm primary-background text-black">Read More...</a>
+                <a href="#" class="btn btn-outline-dark btn-sm primary-background text-black"><i class="fa fa-commenting-o"></i><span>10</span></a>
 
+            </div>
         </div>
     </div>
 

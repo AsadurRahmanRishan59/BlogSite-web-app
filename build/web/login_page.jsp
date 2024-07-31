@@ -40,17 +40,16 @@
                                 <p>Login Here</p>
                             </div>
 
-                            <%
-                                Message msg = (Message) session.getAttribute("msg");
+                            <%                                Message msg = (Message) session.getAttribute("msg");
                                 if (msg != null) {
                             %>
-                            
-                            <div class="alert <%= msg.getCssClass() %>" role="alert">
-                                <%= msg.getContent() %>
+
+                            <div class="alert <%= msg.getCssClass()%>" role="alert">
+                                <%= msg.getContent()%>
                             </div>
 
-                            <% 
-                                session.removeAttribute("msg");
+                            <%
+                                    session.removeAttribute("msg");
                                 }
                             %>
 

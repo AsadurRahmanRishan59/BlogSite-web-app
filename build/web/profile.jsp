@@ -33,6 +33,14 @@
         <link href="css/mystyle.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+        <style>
+            body{
+                background:url(images/back2.avif);
+                background-size: cover;
+                background-attachment: fixed;
+            }
+        </style>
+        
         <title>Profile</title>
     </head>
     <body>
@@ -135,7 +143,7 @@
                     <div class="col-md-4">
                         <!--categories-->
                         <div class="list-group">
-                            <a href="#" onclick="getPosts(0, this)" class="c-link list-group-item list-group-item-action active">
+                            <a href="#" onclick="getPosts(0, this)" class="c-link list-group-item list-group-item-action ">
                                 All Post
                             </a>
                             <!--categories-->
@@ -175,17 +183,6 @@
                 </div>
             </div>
         </main>
-
-
-
-
-
-
-
-
-
-
-
 
         <!--end of main body of the page-->
 
@@ -378,21 +375,7 @@
         </div>
 
         <!--end of add post modal-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
 
         <!--java scripts-->
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
