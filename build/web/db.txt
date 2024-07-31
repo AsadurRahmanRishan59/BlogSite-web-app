@@ -20,6 +20,25 @@ CREATE TABLE `Blog`.`posts` (
     REFERENCES `Blog`.`categories` (`cid`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
+    
+CREATE TABLE `Blog`.`like` (
+  `lid` INT NOT NULL AUTO_INCREMENT,
+  `pid` INT NULL,
+  `userId` INT NULL,
+  PRIMARY KEY (`lid`),
+  INDEX `fk_like_1_idx` (`pid` ASC) VISIBLE,
+  INDEX `fk_like_2_idx` (`userId` ASC) VISIBLE,
+  CONSTRAINT `fk_like_1`
+    FOREIGN KEY (`pid`)
+    REFERENCES `Blog`.`posts` (`pid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_like_2`
+    FOREIGN KEY (`userId`)
+    REFERENCES `Blog`.`user` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
 _________________________________________________________________________________________
 ### Exploring the World of AI: Transforming Our Future
 

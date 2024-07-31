@@ -1,9 +1,22 @@
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/JavaScript.js to edit this template
- */
-
-
-$(document).ready(function (){
-//    alert("Hello")
-})
+//function doLike(pid, userId) {
+//    console.log(pid + ',' + userId);
+//
+//    const d = {
+//        userId: userId,
+//        pid: pid,
+//        operation: 'like'
+//    };
+//
+//    $.ajax({
+//
+//        url: "LikeServlet",
+//        data: d,
+//        success: function (data, textStatus, jqXHR) {
+//            console.log(data);
+//        },
+//        error: function (jqXHR, textStatus, errorThrown) {
+//            console.log(data);
+//        }
+//    });
+//}
+//

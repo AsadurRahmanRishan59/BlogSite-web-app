@@ -46,8 +46,7 @@
                         }
                     %>
 
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Data Structures</a>
+                    
 
                 </div>
 
@@ -55,7 +54,7 @@
 
 
             <li class="nav-item">
-                <a class="nav-link" href="#"><span class="fa fa-id-card"></span> Contact</a>
+                <a class="nav-link" href="Contact.jsp"><span class="fa fa-id-card"></span> Contact</a>
             </li>
 
             <li class="nav-item">

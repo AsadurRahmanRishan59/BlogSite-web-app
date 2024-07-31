@@ -33,11 +33,11 @@ public class Helper {
 
             inputStream.read(b);
 
-            FileOutputStream outputStream = new FileOutputStream(path);
-            outputStream.write(b);
-
-            outputStream.flush();
-            outputStream.close();
+            try (FileOutputStream outputStream = new FileOutputStream(path)) {
+                outputStream.write(b);
+                
+                outputStream.flush();
+            }
 
             f = true;
 

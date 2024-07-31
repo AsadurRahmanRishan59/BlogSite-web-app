@@ -3,6 +3,7 @@
     Created on : Jul 31, 2024, 5:25:43 AM
     Author     : rishan
 --%>
+<%@page import="com.blog.dao.LikeDao"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="com.blog.dao.UserDao"%>
 <%@page import="com.blog.entities.Category"%>
@@ -168,10 +169,10 @@
                                     <div class="col-md-8">
                                         
                                         <% 
-                                            UserDao userDao = new UserDao(ConnectionProvider.getConnection());
+                                            UserDao userDaom = new UserDao(ConnectionProvider.getConnection());
                                         %>
                                         
-                                        <p class="post-user-info">Author: <a href="#"><%= userDao.getUserByUserId(post.getUserId()).getName() %></a></p>
+                                        <p class="post-user-info">Author: <a href="#"><%= userDaom.getUserByUserId(post.getUserId()).getName() %></a></p>
                                     </div>
                                     
                                     <div class="col-md-4">
@@ -181,9 +182,15 @@
                                 
                                 <p class="post-content my-4"><%= post.getpContent()%></p>
                             </div>
-
+                            
+                                <%
+                                    LikeDao likeDao = new LikeDao(ConnectionProvider.getConnection());
+                                    int count = likeDao.countLikeOnPost(post.getPid());
+                                %>
+                            
+                            
                             <div class="card-footer login-background">
-                                <a href="#" class="btn btn-warning btn-sm text-black"><i class="fa fa-thumbs-o-up"></i><span>10</span></a>
+                                <a href="#" onclick="doLike(<%= post.getPid() %>,<%= user.getId() %>)" class="btn btn-warning btn-sm text-black"><i class="fa fa-thumbs-o-up"></i><span><%= count %></span></a>
                                 <a href="#" class="btn btn-warning btn-sm text-black"><i class="fa fa-commenting-o"></i><span>10</span></a>
                             </div>
 
@@ -392,7 +399,13 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+       <script src="js/myjs.js" type="text/javascript"></script>
+        
+        
+        
         <script>
+            
+            
             //add post js
 
             $(document).ready(function () {
@@ -471,6 +484,32 @@
 
             });
 
+        </script>
+        <!--Like-->
+        <script>
+            
+            function doLike(pid, userId) {
+    console.log(pid + ',' + userId);
+
+    const d = {
+        userId: userId,
+        pid: pid,
+        operation: 'like'
+    };
+
+    $.ajax({
+
+        url: "LikeServlet",
+        data: d,
+        success: function (data, textStatus, jqXHR) {
+            console.log(data);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(data);
+        }
+    });
+}
+            
         </script>
     </body>
 </html>
