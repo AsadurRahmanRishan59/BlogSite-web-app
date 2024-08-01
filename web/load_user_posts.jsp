@@ -26,9 +26,9 @@
         List<Post> list = null;
 
         if (cid == 0) {
-            list = postDao.getAllPosts();
+            list = postDao.getAllPostsByUserId(user.getId());
         } else {
-            list = postDao.getPostByCatId(cid);
+            list = postDao.getPostByCatIdAndUserId(cid, user.getId());
         }
 
         if (list.size() == 0) {
@@ -60,7 +60,7 @@
                 %>
 
                 <a href="#" onclick="doLike(<%= post.getPid() %>,<%= user.getId() %>)" class="btn btn-outline-dark btn-sm primary-background text-black"><i class="fa fa-thumbs-o-up"></i><span><%= count %></span></a>
-                <a href="show_postPage.jsp?post_id=<%= post.getPid()%>" class=" btn btn-outline-dark btn-sm primary-background text-black">Read More...</a>
+                <a href="show_user_postPage.jsp?post_id=<%= post.getPid()%>" class=" btn btn-outline-dark btn-sm primary-background text-black">Read More...</a>
                 <a href="#" class="btn btn-outline-dark btn-sm primary-background text-black"><i class="fa fa-commenting-o"></i><span>10</span></a>
 
             </div>

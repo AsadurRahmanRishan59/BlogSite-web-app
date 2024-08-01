@@ -115,8 +115,7 @@
                                 }
                             %>
 
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Data Structures</a>
+                            
 
                         </div>
 
@@ -124,11 +123,15 @@
 
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><span class="fa fa-id-card"></span> Contact</a>
+                        <a class="nav-link" href="Contact.jsp"><span class="fa fa-id-card"></span> Contact</a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-toggle="modal" data-target="#add-post-modal"><span class="fa fa-edit"></span> Do Post</a>
+                    </li>
+                    
+                    <li class="nav-item active">
+                        <a class="nav-link" href="user_profile.jsp"><span class="fa fa-address-book-o"></span> My post</a>
                     </li>
 
                 </ul>
@@ -146,7 +149,6 @@
         </nav
         <!--end of navbar-->
 
-        <!--end of navbar-->
 
         <!--main part-->
         <main>
@@ -192,6 +194,7 @@
                             <div class="card-footer login-background">
                                 <a href="#" onclick="doLike(<%= post.getPid() %>,<%= user.getId() %>)" class="btn btn-warning btn-sm text-black"><i class="fa fa-thumbs-o-up"></i><span><%= count %></span></a>
                                 <a href="#" class="btn btn-warning btn-sm text-black"><i class="fa fa-commenting-o"></i><span>10</span></a>
+                                
                             </div>
 
                         </div>

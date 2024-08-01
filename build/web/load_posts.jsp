@@ -43,8 +43,11 @@
 
     <div class="col-md-6 mt-2">
         <div class="card">
-
-            <img class="card-img-top" src="blogPics/<%= post.getpPic()%>" alt="Card image cap">
+            
+            <div>
+                <img class="card-img-top" src="blogPics/<%= post.getpPic()%>" alt="Card image cap">
+            </div>
+            
             <div class="card-body">
                 <b><%= post.getpTitle()%></b>
                 <p><%= post.getpContent().substring(0, length) + "..."%></p>

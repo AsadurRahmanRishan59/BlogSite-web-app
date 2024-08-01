@@ -1,8 +1,4 @@
-<%-- 
-    Document   : profile
-    Created on : Jul 28, 2024, 7:39:40 PM
-    Author     : rishan
---%>
+
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.blog.entities.Category"%>
 <%@page import="com.blog.helper.ConnectionProvider"%>
@@ -41,7 +37,7 @@
             }
         </style>
         
-        <title>Profile</title>
+        <title><%= user.getName() %></title>
     </head>
     <body>
 
@@ -412,7 +408,7 @@
 
                                                     swal("Good job!", "A New Blog has been Posted!", "success")
                                                             .then((value) => {
-                                                                window.location = "profile.jsp";
+                                                                window.location = "user_profile.jsp";
                                                             });
 
                                                 } else {
@@ -478,7 +474,7 @@
                 
 
                 $.ajax({
-                    url: "load_posts.jsp",
+                    url: "load_user_posts.jsp",
                     data: {cid: catId},
                     success: function (data, textStatus, jqXHR) {
                         console.log(data);

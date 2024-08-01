@@ -24,6 +24,10 @@
         <servlet-name>LikeServlet</servlet-name>
         <servlet-class>com.blog.servlets.LikeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>deletePostServlet</servlet-name>
+        <servlet-class>com.blog.servlets.deletePostServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/RegisterServlet</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>LikeServlet</servlet-name>
         <url-pattern>/LikeServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>deletePostServlet</servlet-name>
+        <url-pattern>/deletePostServlet</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>

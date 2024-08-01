@@ -102,6 +102,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-toggle="modal" data-target="#add-post-modal"><span class="fa fa-edit"></span> Do Post</a>
                     </li>
+                    
+                    <li class="nav-item active">
+                        <a class="nav-link" href="user_profile.jsp"><span class="fa fa-address-book-o"></span> My post</a>
+                    </li>
 
                 </ul>
 
