@@ -1,4 +1,5 @@
 
+<%@page import="com.blog.dao.UserDao"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.blog.entities.Category"%>
 <%@page import="com.blog.helper.ConnectionProvider"%>
@@ -14,7 +15,9 @@
         response.sendRedirect("login_page.jsp");
 
     }
-
+//    int otherUserId = Integer.parseInt(request.getParameter("post_id"));
+//    UserDao userDao = new UserDao(ConnectionProvider.getConnection());
+//    User otherUser = userDao.getUserByUserId(otherUserId);
 
 %>
 
@@ -36,8 +39,8 @@
                 background-attachment: fixed;
             }
         </style>
-        
-        <title><%= user.getName() %></title>
+
+        <title><%= user.getName()%></title>
     </head>
     <body>
 
@@ -84,7 +87,7 @@
                                 }
                             %>
 
-                            
+
 
                         </div>
 
@@ -98,7 +101,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-toggle="modal" data-target="#add-post-modal"><span class="fa fa-edit"></span> Do Post</a>
                     </li>
-                    
+
                     <li class="nav-item active">
                         <a class="nav-link" href="user_profile.jsp"><span class="fa fa-address-book-o"></span> My post</a>
                     </li>
@@ -374,7 +377,7 @@
         </div>
 
         <!--end of add post modal-->
-        
+
 
         <!--java scripts-->
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -386,50 +389,40 @@
 
                                 $(document).ready(function () {
 
-                                    $('#add-post-form').on("submit", function (event) {
+                                $('#add-post-form').on("submit", function (event) {
 
-                                        //this code gets called when form is submitted
+                                //this code gets called when form is submitted
 
-                                        event.preventDefault();
-                                        console.log("done");
+                                event.preventDefault();
+                                console.log("done");
+                                let form = new FormData(this);
+                                //now requesting to server
 
-                                        let form = new FormData(this);
+                                $.ajax({
+                                url: "AddPostServlet",
+                                        type: 'POST',
+                                        data: form,
+                                        success: function (data, textStatus, jqXHR) {
+                                        //success
+                                        if (data.trim() === 'done') {
 
-                                        //now requesting to server
-
-                                        $.ajax({
-                                            url: "AddPostServlet",
-                                            type: 'POST',
-                                            data: form,
-
-                                            success: function (data, textStatus, jqXHR) {
-                                                //success
-                                                if (data.trim() === 'done') {
-
-                                                    swal("Good job!", "A New Blog has been Posted!", "success")
-                                                            .then((value) => {
-                                                                window.location = "user_profile.jsp";
-                                                            });
-
-                                                } else {
-                                                    swal("Error!", "Something went wrong!", "error");
-
-                                                }
-                                            },
-                                            error: function (jqXHR, textStatus, errorThrown) {
-                                                //error
-                                                swal("Error!", "Something went wrong!", "error");
-                                            },
-                                            processData: false,
-                                            contentType: false
-                                        });
-
-                                    });
-
+                                        swal("Good job!", "A New Blog has been Posted!", "success")
+                                                .then((value) => {
+                                                window.location = "user_profile.jsp";
+                                                });
+                                        } else {
+                                        swal("Error!", "Something went wrong!", "error");
+                                        }
+                                        },
+                                        error: function (jqXHR, textStatus, errorThrown) {
+                                        //error
+                                        swal("Error!", "Something went wrong!", "error");
+                                        },
+                                        processData: false,
+                                        contentType: false
                                 });
-
-
-
+                                });
+                                });
         </script>
 
         <!--edit profile-->
@@ -437,29 +430,23 @@
 
             $(document).ready(function () {
 
-                let editStatus = false;
+            let editStatus = false;
+            $('#edit-profile-btn').click(function () {
 
-                $('#edit-profile-btn').click(function () {
-
-                    if (editStatus === false) {
-                        $('#profile-details').hide();
-                        $('#profile-edit').show();
-
-                        editStatus = true;
-                        $(this).text('Back');
-
-                    } else {
-                        $('#profile-details').show();
-                        $('#profile-edit').hide();
-
-                        editStatus = false;
-                        $(this).text('Edit');
-                    }
-
-                });
+            if (editStatus === false) {
+            $('#profile-details').hide();
+            $('#profile-edit').show();
+            editStatus = true;
+            $(this).text('Back');
+            } else {
+            $('#profile-details').show();
+            $('#profile-edit').hide();
+            editStatus = false;
+            $(this).text('Edit');
+            }
 
             });
-
+            });
         </script>
 
         <!--loading post using ajax-->
@@ -493,7 +480,7 @@
             });
 
         </script>
-        <script src="js/post.js" type="text/javascript"></script>
+                <script src="js/post.js" type="text/javascript"></script>
 
-    </body>
-</html>
+            </body>
+        </html>

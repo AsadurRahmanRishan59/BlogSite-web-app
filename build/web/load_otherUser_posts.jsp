@@ -23,12 +23,16 @@
         PostDao postDao = new PostDao(ConnectionProvider.getConnection());
 
         int cid = Integer.parseInt(request.getParameter("cid"));
+        int userId = Integer.parseInt(request.getParameter("author_id"));
+        System.out.println("Author ID "+userId+ "User Id "+user.getId());
+        
+        
         List<Post> list = null;
 
         if (cid == 0) {
-            list = postDao.getAllPostsByUserId(user.getId());
+            list = postDao.getAllPostsByUserId(userId);
         } else {
-            list = postDao.getPostByCatIdAndUserId(cid, user.getId());
+            list = postDao.getPostByCatIdAndUserId(cid, userId);
         }
 
         if (list.size() == 0) {
@@ -43,11 +47,11 @@
 
     <div class="col-md-6 mt-2">
         <div class="card">
-            
+
             <div>
                 <img class="card-img-top" src="blogPics/<%= post.getpPic()%>" alt="Card image cap">
             </div>
-            
+
             <div class="card-body">
                 <b><%= post.getpTitle()%></b>
                 <p><%= post.getpContent().substring(0, length) + "..."%></p>
@@ -75,24 +79,24 @@
 
 <script>
     function doLike(pid, userId) {
-    console.log(pid + ',' + userId);
+        console.log(pid + ',' + userId);
 
-    const d = {
-        userId: userId,
-        pid: pid,
-        operation: 'like'
-    };
+        const d = {
+            userId: userId,
+            pid: pid,
+            operation: 'like'
+        };
 
-    $.ajax({
+        $.ajax({
 
-        url: "LikeServlet",
-        data: d,
-        success: function (data, textStatus, jqXHR) {
-            console.log(data);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log(data);
-        }
-    });
-}
+            url: "LikeServlet",
+            data: d,
+            success: function (data, textStatus, jqXHR) {
+                console.log(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(data);
+            }
+        });
+    }
 </script>

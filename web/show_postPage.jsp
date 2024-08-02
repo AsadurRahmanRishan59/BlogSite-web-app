@@ -174,7 +174,7 @@
                                             UserDao userDaom = new UserDao(ConnectionProvider.getConnection());
                                         %>
                                         
-                                        <p class="post-user-info">Author: <a href="#"><%= userDaom.getUserByUserId(post.getUserId()).getName() %></a></p>
+                                        <p class="post-user-info">Author: <a href="user_postsByName.jsp?post_id=<%= post.getUserId()%>"><%= userDaom.getUserByUserId(post.getUserId()).getName() %></a></p>
                                     </div>
                                     
                                     <div class="col-md-4">
